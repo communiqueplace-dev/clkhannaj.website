@@ -1,0 +1,33 @@
+C.L KHANNA — ACCOUNTS SETUP (one time, ~10 minutes)
+====================================================
+
+1. Go to https://supabase.com → Start your project → sign up free
+   (use clkhannajewellers@gmail.com)
+
+2. Create a New Project
+   - Name: clkhanna
+   - Database password: choose any strong password and SAVE it somewhere
+   - Region: Mumbai (ap-south-1)
+
+3. When the project opens, go to: SQL Editor → New query
+   Paste this EXACTLY and press RUN:
+
+   create table carts (
+     user_id uuid primary key references auth.users(id) on delete cascade,
+     items jsonb default '[]',
+     updated_at timestamptz default now()
+   );
+   alter table carts enable row level security;
+   create policy "own cart" on carts
+     for all using (auth.uid() = user_id)
+     with check (auth.uid() = user_id);
+
+4. Go to: Settings → API and copy two things:
+   - Project URL        (looks like https://xxxx.supabase.co)
+   - anon public key    (a long string starting with "eyJ...")
+
+5. Send both values to Claude (or paste them yourself into shop.js
+   at the top, lines SUPABASE_URL and SUPABASE_ANON_KEY).
+
+That's it. Accounts, sign-in, and cross-device carts switch on
+automatically. Until then the cart still works, saved per device.

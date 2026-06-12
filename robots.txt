@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /clkhanna-studio.html
+
+Sitemap: https://clkhanna.pages.dev/sitemap.xml
